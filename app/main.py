@@ -43,7 +43,7 @@ async def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 
-@app.post("/register", response_model=AuthDataSchema)
+@app.post("/api/register", response_model=AuthDataSchema)
 async def create_user(user: UserInSchema, Authorize: AuthJWT = Depends(),
                       db: AsyncSession = Depends(get_db)):
     users = UserRepository(db)
@@ -51,7 +51,7 @@ async def create_user(user: UserInSchema, Authorize: AuthJWT = Depends(),
     return AuthDataSchema(user=user, tokens=create_auth_tokens(Authorize, user.email))
 
 
-@app.post("/login", response_model=AuthDataSchema)
+@app.post("/api/login", response_model=AuthDataSchema)
 async def authorize_user(user: UserInSchema, Authorize: AuthJWT = Depends(),
                          db: AsyncSession = Depends(get_db)):
     users = UserRepository(db)
